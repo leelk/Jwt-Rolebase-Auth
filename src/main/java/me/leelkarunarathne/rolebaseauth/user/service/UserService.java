@@ -4,4 +4,6 @@ import me.leelkarunarathne.rolebaseauth.user.persistent.User;
 
 public interface UserService {
     User getByUsername(String username);
+
+    User createUser(User user);
 }
