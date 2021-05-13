@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import me.leelkarunarathne.rolebaseauth.user.model.request.CreateUserRQ;
 import me.leelkarunarathne.rolebaseauth.user.persistent.User;
 import me.leelkarunarathne.rolebaseauth.user.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,5 +27,12 @@ public class UserController {
 
         userService.createUser(user);
     }
+
+    @GetMapping(value = "/test")
+    @PreAuthorize("hasRole('TWO')")
+    public String dosomething() {
+        return  "jgskejgkj";
+    }
+
 
 }
