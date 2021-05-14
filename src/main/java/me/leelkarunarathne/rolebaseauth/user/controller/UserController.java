@@ -8,6 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(value = "/api/user")
 @AllArgsConstructor
@@ -16,8 +18,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public void createUser(@RequestBody CreateUserRQ createUserRQ) {
+    public void createUser(@RequestBody CreateUserRQ createUserRQ) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        Optional<User> existUser = userService.getByUsername(createUserRQ.getUserName());
+
+        if (existUser.isPresent()) {
+            throw new Exception("username " + createUserRQ.getUserName() + " already taken.");
+        }
+
 
         User user = User.builder()
                 .userName(createUserRQ.getUserName())
@@ -29,9 +38,22 @@ public class UserController {
     }
 
     @GetMapping(value = "/test")
-    @PreAuthorize("hasRole('TWO')")
+    @PreAuthorize("hasRole('ONE')")
     public String dosomething() {
-        return  "jgskejgkj";
+        return  "Welcome USER ROLE ONE ";
+    }
+
+
+    @GetMapping(value = "/test2")
+    @PreAuthorize("hasRole('TWO')")
+    public String doPrint() {
+        return  "Welcome USER ROLE TWO ";
+    }
+
+    @GetMapping(value = "/test3")
+    @PreAuthorize("hasRole('THREE')")
+    public String doDisplay() {
+        return  "Welcome USER ROLE THREE ";
     }
 
 

@@ -19,6 +19,7 @@ public class User {
     private Long id;
     @Enumerated(EnumType.STRING)
     private ROLE role;
+    @Column(unique = true)
     private String userName;
     private String password;
 }

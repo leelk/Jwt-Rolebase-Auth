@@ -65,8 +65,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 userName = jwtUtil.extractUsername(authToken);
             } catch (IllegalArgumentException ex) {
 
-                log.error("n error occurred during getting username from token ", ex);
-
             } catch (ExpiredJwtException ex) {
                 log.warn("the token is expired and not valid anymore", ex);
             } catch (SignatureException ex) {
@@ -96,7 +94,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
-            request.setAttribute("decodedToken", claims);
+            request.setAttribute("decodedToken", decodedToken);
 
 
 
